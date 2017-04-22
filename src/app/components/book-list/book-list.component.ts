@@ -9,7 +9,7 @@ import { BookService } from '../../services/book.service';
 })
 export class BookComponent implements OnInit {
   heading = 'Library';
-  cash = 10000;
+  cash = 100000;
   books: Book[];
 
   constructor(private bookService: BookService) {
@@ -23,7 +23,14 @@ export class BookComponent implements OnInit {
 
   totalCost() {
     let sum = 0;
-    //
+    if(this.books){
+      for(let book of this.books ){
+      if (book.isAvailable === false){
+        sum =sum+book.price;
+      }
+    }
+  }
+    
     return sum;
   }
 
@@ -32,11 +39,11 @@ export class BookComponent implements OnInit {
   }
 
   cashLeft() {
-  //Dinero restante de la compra de los libros
+  return (this.cash-this.totalCost());
   }
 
   buy(book) {
-    if (0) {
+    if (this.cashLeft()>=book.price) {
       book.isAvailable = false;
     } else {
       alert("You don't have enough cash");
